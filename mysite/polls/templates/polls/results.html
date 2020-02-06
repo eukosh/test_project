@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Question {{ question.id }} Results{% endblock %}
+
+
+{% block content %}
+    {% if question %}
+        <div class="container">
+            <h1 style="text-align: center">Results</h1>
+            <ul class="list-group">
+                {% for choice in question.choice_set.all %}
+                    <li class="list-group-item d-flex justify-content-around align-items-center">
+                        {{ choice.choice_text }}
+                        <span class="badge badge-primary badge-pill">{{ choice.votes }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}
