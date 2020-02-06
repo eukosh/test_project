@@ -6,16 +6,21 @@
 {% block content %}
     {% if question %}
         <div class="container">
-            <h1 style="text-align: center;">{{ question.question_text }}</h1>
-            <div class="row">
-                <div class="col-md-12">
-                    {% if choices %}
-                        {% for choice in choices %}
-                            <p>{{ choice }}</p>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
+            <h1>{{ question.question_text }}</h1>
+
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+            <form action="{% url 'polls:vote' question.id %}" method="POST">
+            {% csrf_token %}
+                {% for choice in question.choice_set.all %}
+                    <div class="custom-control custom-radio">
+                      <input type="radio" id="choice{{ forloop.counter }}" name="choice" value="{{ choice.id }}" class="custom-control-input">
+                      <label class="custom-control-label" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+                    </div>
+                {% endfor %}
+            <input type="submit" value="Vote">
+            </form>
         </div>
     {% endif %}
+
 {% endblock %}
